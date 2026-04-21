@@ -36,9 +36,9 @@ aur_install() {
     if ! pkg_installed "$pkg"; then
         info "Installing (AUR): $pkg"
         if command -v yay &>/dev/null; then
-            yay -S --noconfirm "$pkg"
+            yay -S "$pkg"
         elif command -v paru &>/dev/null; then
-            paru -S --noconfirm "$pkg"
+            paru -S "$pkg"
         else
             warn "No AUR helper found. Please install manually: $pkg"
         fi
@@ -51,7 +51,7 @@ pac_install() {
     local pkg="$1"
     if ! pkg_installed "$pkg"; then
         info "Installing: $pkg"
-        sudo pacman -S --noconfirm "$pkg"
+        sudo pacman -S "$pkg"
     else
         success "Already installed: $pkg"
     fi
@@ -60,7 +60,6 @@ pac_install() {
 # ── Package lists ─────────────────────────────────────────────────────────
 PACMAN_PKGS=(
     hyprland hyprpaper hypridle hyprlock
-    quickshell
     kitty
     dunst
     rofi-wayland
