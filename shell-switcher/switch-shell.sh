@@ -3,7 +3,7 @@
 # Usage: switch-shell.sh [shell-name]
 #        switch-shell.sh          → opens rofi picker
 
-SHELLS_DIR="$HOME/.dotfiles/shell-switcher/shells"
+SHELLS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/shells"
 STATE_FILE="$HOME/.config/current-shell"
 CURRENT=$(cat "$STATE_FILE" 2>/dev/null || echo "noctalia")
 

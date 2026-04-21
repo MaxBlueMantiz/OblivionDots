@@ -9,14 +9,14 @@ if [[ ! -f "$STATE_FILE" ]]; then
     echo "noctalia" > "$STATE_FILE"
 fi
 
+SHELLS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/shells"
 SHELL_NAME=$(cat "$STATE_FILE")
-SCRIPT="$HOME/.dotfiles/shell-switcher/shells/${SHELL_NAME}.sh"
+SCRIPT="$SHELLS_DIR/${SHELL_NAME}.sh"
 
 if [[ -x "$SCRIPT" ]]; then
     exec "$SCRIPT"
 else
     notify-send "Shell Switcher" "Unknown shell: $SHELL_NAME" --urgency=critical
-    # Fallback to noctalia
     echo "noctalia" > "$STATE_FILE"
-    exec "$HOME/.dotfiles/shell-switcher/shells/noctalia.sh"
+    exec "$SHELLS_DIR/noctalia.sh"
 fi

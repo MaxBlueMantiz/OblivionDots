@@ -1,6 +1,6 @@
 # OblivionDots
  
- My first HyprlandRice
+My first HyprlandRice
 
 use install.sh to install
 uninstall.sh to uninstall
