@@ -1,0 +1,7 @@
+# Don't track wallpapers (too large for git)
+assets/wallpapers/*
+!assets/wallpapers/.gitkeep
+
+# Secrets / local overrides
+*.secret
+local.conf
