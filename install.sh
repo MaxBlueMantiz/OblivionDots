@@ -76,11 +76,9 @@ PACMAN_PKGS=(
 )
 
 AUR_PKGS=(
-    noctalia-qs
     catppuccin-gtk-theme-macchiato
     catppuccin-cursors-macchiato
     kvantum-theme-catppuccin-git
-    # dankmaterialshell  # uncomment when you want to install it
 )
 
 # ── Step functions ────────────────────────────────────────────────────────
@@ -98,6 +96,9 @@ step_links() {
 
     # Hyprland
     link "$DOTFILES/hypr"                "$CONFIG/hypr"
+
+    # Shell switcher
+    link "$DOTFILES/shell-switcher"      "$CONFIG/shell-switcher"
 
     # Kitty
     link "$DOTFILES/kitty/kitty.conf"    "$CONFIG/kitty/kitty.conf"
@@ -150,12 +151,31 @@ step_gsettings() {
     success "GSSettings applied"
 }
 
+step_shell_select() {
+    header "Shell selection"
+    echo "  Which shell do you want to install?"
+    echo "  1) noctalia  (quickshell-based, recommended)"
+    echo "  2) dankmaterialshell"
+    echo ""
+    read -rp "  Choice [1/2, default: 1]: " choice
+    case "$choice" in
+        2)
+            SELECTED_SHELL="dankmaterial"
+            aur_install "dankmaterialshell"
+            ;;
+        *)
+            SELECTED_SHELL="noctalia"
+            aur_install "noctalia-qs"
+            ;;
+    esac
+}
+
 step_shell_state() {
     header "Shell switcher"
     mkdir -p "$HOME/Pictures/Screenshots"
     if [[ ! -f "$CONFIG/current-shell" ]]; then
-        echo "noctalia" > "$CONFIG/current-shell"
-        success "Set default shell: noctalia"
+        echo "$SELECTED_SHELL" > "$CONFIG/current-shell"
+        success "Set default shell: $SELECTED_SHELL"
     else
         success "Shell state already exists: $(cat "$CONFIG/current-shell")"
     fi
@@ -198,6 +218,7 @@ main() {
         esac
     done
 
+    step_shell_select
     [[ "$SKIP_PKGS" == false ]] && step_packages
     step_links
     step_kvantum_theme

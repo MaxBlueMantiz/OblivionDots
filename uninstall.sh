@@ -42,6 +42,7 @@ echo ""
 info "Removing symlinks..."
 
 unlink_or_restore "$CONFIG/hypr"
+unlink_or_restore "$CONFIG/shell-switcher"
 unlink_or_restore "$CONFIG/kitty/kitty.conf"
 unlink_or_restore "$CONFIG/gtk-3.0/settings.ini"
 unlink_or_restore "$CONFIG/gtk-4.0/settings.ini"

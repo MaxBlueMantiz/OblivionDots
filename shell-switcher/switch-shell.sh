@@ -24,6 +24,34 @@ if [[ ! -x "$SCRIPT" ]]; then
     exit 1
 fi
 
+# ── Install target shell if not present ───────────────────────────────────
+aur_install_gui() {
+    local pkg="$1"
+    if command -v yay &>/dev/null; then
+        kitty -- bash -c "yay -S $pkg; echo; echo 'Done — press enter to close'; read"
+    elif command -v paru &>/dev/null; then
+        kitty -- bash -c "paru -S $pkg; echo; echo 'Done — press enter to close'; read"
+    else
+        notify-send "Shell Switcher" "No AUR helper found. Install $pkg manually." --urgency=critical
+        exit 1
+    fi
+}
+
+case "$TARGET" in
+    noctalia)
+        if ! command -v qs &>/dev/null; then
+            notify-send "Shell Switcher" "Installing noctalia-qs..."
+            aur_install_gui "noctalia-qs"
+        fi
+        ;;
+    dankmaterial)
+        if ! command -v dankmaterialshell &>/dev/null; then
+            notify-send "Shell Switcher" "Installing dankmaterialshell..."
+            aur_install_gui "dankmaterialshell"
+        fi
+        ;;
+esac
+
 # ── Kill current shell ─────────────────────────────────────────────────────
 case "$CURRENT" in
     noctalia)
